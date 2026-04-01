@@ -1,12 +1,11 @@
 FROM registry.access.redhat.com/ubi8/ubi
 
-RUN yum install -y httpd && yum clean all
+RUN yum install -y python3 && yum clean all
 
-# Fix required runtime dirs
-RUN mkdir -p /run/httpd /var/log/httpd
+WORKDIR /app
 
-COPY index.html /var/www/html/index.html
+COPY index.html .
 
 EXPOSE 80
 
-CMD ["/usr/sbin/httpd", "-DFOREGROUND"]
+CMD ["python3", "-m", "http.server", "80"]
