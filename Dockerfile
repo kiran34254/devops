@@ -1,13 +1,12 @@
 FROM registry.access.redhat.com/ubi8/ubi
 
-# Install packages
 RUN yum install -y httpd && yum clean all
 
-# Copy app files
+# Fix required runtime dirs
+RUN mkdir -p /run/httpd /var/log/httpd
+
 COPY index.html /var/www/html/index.html
 
-# Expose port
 EXPOSE 80
 
-# Start Apache
-CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+CMD ["/usr/sbin/httpd", "-DFOREGROUND"]
